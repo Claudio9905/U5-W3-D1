@@ -8,6 +8,7 @@ import claudiopostiglione.u5w3d1.payload.LoginResponseDTO;
 import claudiopostiglione.u5w3d1.services.AuthService;
 import claudiopostiglione.u5w3d1.services.DipendenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +42,11 @@ public class AuthController {
         }
 
         return this.dipendenteService.saveDipendente(body);
+    }
+
+    @GetMapping
+    public Page<Dipendente> getAllDipendenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
+        return this.dipendenteService.findAllDipendenti(page, size, sortBy);
     }
 
 }

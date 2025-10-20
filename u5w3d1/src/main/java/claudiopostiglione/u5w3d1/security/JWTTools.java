@@ -1,6 +1,7 @@
 package claudiopostiglione.u5w3d1.security;
 
 import claudiopostiglione.u5w3d1.entities.Dipendente;
+import claudiopostiglione.u5w3d1.exceptions.UnauthorizedExcpetion;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ public class JWTTools {
     @Value("${jwt.secret}")
     private String keySecret;
 
-    public String createToken(Dipendente dipendente){
+    public String createToken(Dipendente dipendente) {
         //Questa classe sfrutta due metodi:
         // - Il builder() che serve per creare il token
         // - Il parser() ver la verifica del token
@@ -27,7 +28,16 @@ public class JWTTools {
                 .compact();
     }
 
-
+    public void verifyToken(String accessToken) {
+        try {
+            //parser lancia varie eccezioni a seconda del problema che ha il token
+            // quindi un'eccezione sul token che è scaduto, un'altro che è stato manipolato, un altro se il token è malformato
+            // il tipo di eccezione viene convertito in -> 401
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(keySecret.getBytes())).build().parse(accessToken);
+        } catch (Exception ex) {
+            throw new UnauthorizedExcpetion("Ci sono stati errori nel token, effettua il login");
+        }
+    }
 
 
 }
