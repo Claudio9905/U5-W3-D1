@@ -2,6 +2,7 @@ package claudiopostiglione.u5w3d1.payload;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record DipendenteDTO(
@@ -16,6 +17,9 @@ public record DipendenteDTO(
         String username,
         @NotBlank(message = "L'email è obbligatoria")
         @Email(message = "L'indirizzo e-mail inserito non è del formato corretto")
-        String email
+        String email,
+        @NotBlank(message = "La password è obbligatoria")
+        @Size(min = 8, max = 20, message = "La password deve avere un minimo di 8 caratteri e un massimo di 20")
+        String password
 ) {
 }

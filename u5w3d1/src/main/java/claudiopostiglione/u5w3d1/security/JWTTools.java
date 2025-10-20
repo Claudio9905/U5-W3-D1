@@ -1,0 +1,33 @@
+package claudiopostiglione.u5w3d1.security;
+
+import claudiopostiglione.u5w3d1.entities.Dipendente;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+public class JWTTools {
+
+    @Value("${jwt.secret}")
+    private String keySecret;
+
+    public String createToken(Dipendente dipendente){
+        //Questa classe sfrutta due metodi:
+        // - Il builder() che serve per creare il token
+        // - Il parser() ver la verifica del token
+
+        return Jwts.builder()
+                .issuedAt(new Date(System.currentTimeMillis())) // questo metodo ci da la data di emissione del token, messa in millisecondi
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) //questo metodi ci da la data di scadenza, sempre in millisecondi
+                .subject(String.valueOf(dipendente.getId())) // questo metodo ci riporta a chi appartiene il token
+                .signWith(Keys.hmacShaKeyFor(keySecret.getBytes())) // Viene firmato il token con un algoritmo specifico HMAC fornendogli un SECRET che solo il server conosce (serve per generare token e verificare)
+                .compact();
+    }
+
+
+
+
+}

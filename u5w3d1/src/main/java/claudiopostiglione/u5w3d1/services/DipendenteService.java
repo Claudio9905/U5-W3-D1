@@ -3,6 +3,7 @@ package claudiopostiglione.u5w3d1.services;
 import claudiopostiglione.u5w3d1.entities.Dipendente;
 import claudiopostiglione.u5w3d1.exceptions.BadRequestException;
 import claudiopostiglione.u5w3d1.exceptions.IdNotFoundException;
+import claudiopostiglione.u5w3d1.exceptions.NotFoundExcpetion;
 import claudiopostiglione.u5w3d1.payload.DipendenteDTO;
 import claudiopostiglione.u5w3d1.repositories.DipendenteRepository;
 import com.cloudinary.Cloudinary;
@@ -41,7 +42,7 @@ public class DipendenteService {
             throw new BadRequestException("Attenzione, l'email " + dipendente.getEmail() + " esiste già");
         });
 
-        Dipendente newDipendente = new Dipendente(body.nome(), body.cognome(), body.username(), body.email());
+        Dipendente newDipendente = new Dipendente(body.nome(), body.cognome(), body.username(), body.email(), body.password());
         newDipendente.setImageProfile("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
 
         this.dipendenteRepository.save(newDipendente);
@@ -120,6 +121,10 @@ public class DipendenteService {
             throw new BadRequestException("Errore nell'upload dell'immagine");
         }
 
+    }
+
+    public Dipendente findDipendenteByEmail(String email) {
+        return this.dipendenteRepository.findByEmail(email).orElseThrow(() -> new NotFoundExcpetion("L'email " + email + " non è stato trovata"));
     }
 
 }

@@ -32,6 +32,7 @@ public class Dipendente {
     private String email;
     @Column(name = "Immagine_Profilo")
     private String imageProfile;
+    private String password;
 
     @JsonIgnore
     @OneToMany(mappedBy = "dipendente")
@@ -39,11 +40,12 @@ public class Dipendente {
 
 
     //Costruttori
-    public Dipendente(String nome, String congnome, String username, String email) {
+    public Dipendente(String nome, String congnome, String username, String email, String password) {
         this.nome = nome;
         this.congnome = congnome;
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     //Metodi

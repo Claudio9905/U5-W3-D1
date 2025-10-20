@@ -18,6 +18,18 @@ public class ExceptionsHandler extends RuntimeException {
         return new ErrorsDTO(ex.getMessage(), LocalDate.now());
     }
 
+    @ExceptionHandler(NotFoundExcpetion.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsDTO handleNotFoundException(NotFoundExcpetion ex){
+        return new ErrorsDTO(ex.getMessage(),LocalDate.now());
+    }
+
+    @ExceptionHandler(UnauthorizedExcpetion.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleUnauthorizedException( UnauthorizedExcpetion ex){
+        return  new ErrorsDTO(ex.getMessage(), LocalDate.now());
+    }
+
     @ExceptionHandler(IdNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleIdNotFoundException(IdNotFoundException ex){
