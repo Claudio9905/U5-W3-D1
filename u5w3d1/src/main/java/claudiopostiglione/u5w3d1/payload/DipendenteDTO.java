@@ -1,0 +1,21 @@
+package claudiopostiglione.u5w3d1.payload;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record DipendenteDTO(
+        @NotBlank(message = "Il nome è obbligatorio")
+        @Size(min = 2, max = 20, message = "Il nome deve avere un minimo 2 due caratteri e un massimo di 20")
+        String nome,
+        @NotBlank(message = "Il cognome è obbligatorio")
+        @Size(min = 2, max = 20, message = "Il cognome deve avere un minimo 2 due caratteri e un massimo di 20")
+        String cognome,
+        @NotBlank(message = "Lo username è obbligatorio")
+        @Size(min = 2, max = 20, message = "Lo username deve avere un minimo 2 due caratteri e un massimo di 20")
+        String username,
+        @NotBlank(message = "L'email è obbligatoria")
+        @Email(message = "L'indirizzo e-mail inserito non è del formato corretto")
+        String email
+) {
+}
