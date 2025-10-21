@@ -25,12 +25,12 @@ public class JWTFilter extends OncePerRequestFilter {
         // Eseguiremo vari steps:
         // 1. Verifica della presenza di un header chiamato Authorization e che sia nel formato giusto
         String authHeader = request.getHeader("Authorization");
-        if((authHeader == null) || !(authHeader.startsWith("Bearer "))){
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
             throw new UnavailableException("Inserire il token nell'authorization header e nel formato giusto!");
         }
 
         // 2. Se l'header esiste, catturiamo il token
-        String accessToken = authHeader.replace("Bearer", "");
+        String accessToken = authHeader.replace("Bearer ", "");
 
         // 3. Verifichiamo che il token ricevuto sia valido ( se non è stato modificato, se è scaduto o meno, se è malformato
         jwtTools.verifyToken(accessToken);
@@ -44,9 +44,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
     //Questo override permette di disabilitare il lavoro del filtro per determinati tipi di endpoint
     // Ad esempio, posso disabilitare tutte le richieste dirette al controller /auth
-    // Quindi tutte le richieste tipo /auth/login oppure /auth/register non richiederanno alcun token
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+        return new AntPathMatcher().match("/auth/login", request.getServletPath());
     }
 }

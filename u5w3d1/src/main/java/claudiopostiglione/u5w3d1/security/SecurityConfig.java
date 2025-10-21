@@ -13,7 +13,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        // tale bean servirà per modificare la configurazione di default si Spring Security:
+        // tale bean servirà per modificare la configurazione di default di Spring Security:
         //1. Disabilitazione dell'autenticazione basata sul form proposto da Spring
         httpSecurity.formLogin(formLogin -> formLogin.disable());
         //2.Togliere la protezione di CSRF
